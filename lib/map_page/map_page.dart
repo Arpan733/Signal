@@ -41,6 +41,8 @@ class _MapPageState extends State<MapPage> {
   List<dynamic>? signals;
   Map<String, dynamic>? signal;
 
+  String signalId = '';
+
   int r = 0;
   int y = 0;
   int g = 0;
@@ -158,42 +160,38 @@ class _MapPageState extends State<MapPage> {
             circleName = signals?[0]["address"]["circleName"];
           });
 
-          print(signals);
-
           signals?.forEach((element) {
             setMarkerOfSignals.add(
               Marker(
-                markerId:
-                    MarkerId("${element["signalId"]} ${element["circleId"]}"),
+                markerId: MarkerId("${element["signalId"]}"),
                 position: LatLng(element["location"]["latitude"],
                     element["location"]["longitude"]),
                 icon: BitmapDescriptor.fromBytes(resizedBytes1),
                 onTap: () async {
-                  await GetSignalData.getSignalByCircle(element["circleId"]);
-                  signals = GetSignalData.signals;
+                  if (signalId == element["signalId"]) {
+                    await GetSignalData.getSignalById(signalId);
+                    signal = GetSignalData.signal;
+                    // print("Hemlo: $signal");
 
-                  setState(() {
-                    rShow = true;
-                    yShow = true;
-                    gShow = true;
+                    setState(() {
+                      updateSignal();
+                    });
+                  } else {
+                    setState(() {
+                      signal = element;
+                      // print("element: $signal");
 
-                    rForShow = 0;
-                    yForShow = 0;
-                    gForShow = 0;
+                      signalId = element["signalId"];
+                      // print("signalId: $signalId");
 
-                    timerSignal?.cancel();
-                    realSignal?.cancel();
+                      showLights = true;
+                    });
 
-                    timerSignal = Timer(Duration.zero, () => {});
-                    realSignal = Timer(Duration.zero, () => {});
+                    await GetSignalData.getSignalByCircle(element["circleId"]);
+                    signals = GetSignalData.signals;
 
-                    signal = element;
-                    print("element: $signal");
-
-                    showLights = true;
-                  });
-
-                  updateSignal();
+                    updateSignal();
+                  }
                 },
               ),
             );
@@ -202,7 +200,7 @@ class _MapPageState extends State<MapPage> {
           setMarker.addAll(setMarkerOfSignals);
         }
       } else {
-        if (circles!.isEmpty) {
+        if (circles == null) {
           getCircle();
         }
 
@@ -223,6 +221,7 @@ class _MapPageState extends State<MapPage> {
                 signals = GetSignalData.signals;
 
                 setState(() {
+                  signalId = '';
                   showSignals = true;
                 });
 
@@ -237,7 +236,15 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  updateSignal() {
+  updateSignal() async {
+    rShow = false;
+    yShow = false;
+    gShow = false;
+
+    rForShow = 0;
+    yForShow = 0;
+    gForShow = 0;
+
     timerSignal?.cancel();
     realSignal?.cancel();
 
@@ -245,13 +252,18 @@ class _MapPageState extends State<MapPage> {
     realSignal = Timer(Duration.zero, () => {});
 
     if (showLights) {
-      print(signal?["aspects"]);
+      print("Signal Aspects: ${signal?["aspects"]}");
 
       if (signal == null) {
-        setState(() {
-          showSignals = false;
-          showLights = false;
-        });
+        await GetSignalData.getSignalById(signalId);
+        signal = GetSignalData.signal;
+
+        updateSignal();
+
+        // setState(() {
+        //   showSignals = false;
+        //   showLights = false;
+        // });
         // print("Hello");
       } else {
         // print("Hello1");
@@ -263,15 +275,22 @@ class _MapPageState extends State<MapPage> {
         // print(y);
         // print(g);
 
-        if (signal?["aspects"]["currentColor"] == "red") {
+        if (signal?["aspects"]["currentColor"].toString().toLowerCase() ==
+            "red") {
           // print("red");
           rFromData = true;
           red(signal?["aspects"]["durationInSeconds"]);
-        } else if (signal?["aspects"]["currentColor"] == "Yellow") {
+        } else if (signal?["aspects"]["currentColor"]
+                .toString()
+                .toLowerCase() ==
+            "yellow") {
           // print("yellow");
           yFromData = true;
           yellow(signal?["aspects"]["durationInSeconds"]);
-        } else if (signal?["aspects"]["currentColor"] == "Green") {
+        } else if (signal?["aspects"]["currentColor"]
+                .toString()
+                .toLowerCase() ==
+            "green") {
           // print("green");
           gFromData = true;
           green(signal?["aspects"]["durationInSeconds"]);
@@ -407,6 +426,8 @@ class _MapPageState extends State<MapPage> {
                       showSignals = false;
                       showLights = false;
                       updateSignal();
+
+                      signalId = '';
 
                       setMarkerOfSignals.clear();
 
