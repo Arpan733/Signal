@@ -31,6 +31,7 @@ class _MapPageState extends State<MapPage> {
 
   bool showSignals = false;
   bool showLights = false;
+  bool showSignal = false;
 
   Timer? timerSignal;
   Timer? realSignal;
@@ -39,6 +40,7 @@ class _MapPageState extends State<MapPage> {
 
   List<dynamic>? circles;
   List<dynamic>? signals;
+  Map<String, dynamic>? circle;
   Map<String, dynamic>? signal;
 
   String signalId = '';
@@ -130,6 +132,12 @@ class _MapPageState extends State<MapPage> {
     img.Image resizedImage1 = img.copyResize(image1, width: 150, height: 150);
     Uint8List resizedBytes1 = Uint8List.fromList(img.encodePng(resizedImage1));
 
+    ByteData data2 = await rootBundle.load('assets/images/crossroad.png');
+    List<int> bytes2 = data2.buffer.asUint8List();
+    img.Image image2 = img.decodeImage(Uint8List.fromList(bytes2))!;
+    img.Image resizedImage2 = img.copyResize(image2, width: 150, height: 150);
+    Uint8List resizedBytes2 = Uint8List.fromList(img.encodePng(resizedImage2));
+
     // BitmapDescriptor customMarker = await BitmapDescriptor.fromAssetImage(
     //   const ImageConfiguration(
     //     devicePixelRatio: 2.5,
@@ -174,10 +182,14 @@ class _MapPageState extends State<MapPage> {
                     // print("Hemlo: $signal");
 
                     setState(() {
+                      showSignal = false;
+                      showSignals = true;
                       updateSignal();
                     });
                   } else {
                     setState(() {
+                      showSignal = false;
+                      showSignals = true;
                       signal = element;
                       // print("element: $signal");
 
@@ -210,11 +222,12 @@ class _MapPageState extends State<MapPage> {
         circles?.forEach((element) {
           setMarkerOfMainSignals.add(
             Marker(
-              markerId: MarkerId(element["circleId"]),
+              markerId: MarkerId(element["circleId"] ?? ''),
               position: LatLng(element["coordinates"]["latitude"],
                   element["coordinates"]["longitude"]),
-              icon: BitmapDescriptor.fromBytes(resizedBytes1),
+              icon: BitmapDescriptor.fromBytes(resizedBytes2),
               onTap: () async {
+                circle = await element;
                 setMarkerOfSignals.clear();
 
                 await GetSignalData.getSignalByCircle(element["circleId"]);
@@ -223,6 +236,7 @@ class _MapPageState extends State<MapPage> {
                 setState(() {
                   signalId = '';
                   showSignals = true;
+                  showSignal = true;
                 });
 
                 updateMarker(latLng);
@@ -295,8 +309,8 @@ class _MapPageState extends State<MapPage> {
           gFromData = true;
           green(signal?["aspects"]["durationInSeconds"]);
         } else {
+          print("Hello");
           setState(() {
-            showSignals = false;
             showLights = false;
           });
         }
@@ -405,165 +419,259 @@ class _MapPageState extends State<MapPage> {
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: 170,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 170,
-              child: SizedBox.expand(
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: cameraPosition,
-                  markers: setMarker,
-                  zoomControlsEnabled: false,
-                  mapToolbarEnabled: false,
-                  trafficEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    if (!googleMapController.isCompleted) {
+              top: showSignals ? 170 : 0,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                width: MediaQuery.of(context).size.width,
+                height: showSignals
+                    ? MediaQuery.of(context).size.height - 170
+                    : MediaQuery.of(context).size.height,
+                child: SizedBox.expand(
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: cameraPosition,
+                    markers: setMarker,
+                    zoomControlsEnabled: false,
+                    mapToolbarEnabled: false,
+                    trafficEnabled: true,
+                    onMapCreated: (GoogleMapController controller) {
                       googleMapController.complete(controller);
-                    }
-                  },
-                  onTap: (latLng) {
-                    setState(() {
-                      showSignals = false;
-                      showLights = false;
-                      updateSignal();
+                      // if (!googleMapController.isCompleted) {
+                      // }
+                    },
+                    onTap: (latLng) {
+                      setState(() {
+                        showSignals = false;
+                        showLights = false;
+                        showSignal = false;
 
-                      signalId = '';
+                        updateSignal();
 
-                      setMarkerOfSignals.clear();
+                        signalId = '';
+                        setMarkerOfSignals.clear();
+                        circleName = '';
+                      });
 
-                      circleName = '';
-                    });
-
-                    // getCircle();
-                    // GetSignalData.getSignalByCircle("1");
-                  },
+                      // getCircle();
+                      // GetSignalData.getSignalByCircle("1");
+                    },
+                  ),
                 ),
               ),
             ),
             Positioned(
               top: 0,
-              child: Container(
-                height: 180,
-                width: MediaQuery.of(context).size.width,
-                decoration: const ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: Color(0xFFD6D3D3),
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(19),
-                      bottomRight: Radius.circular(19),
-                    ),
-                  ),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                      spreadRadius: 7,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      circleName == '' ? 'Signal can\'t detect' : circleName,
-                      style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w600,
-                        height: 0,
+              child: AnimatedOpacity(
+                opacity: showSignals ? 1 : 0,
+                duration: const Duration(milliseconds: 500),
+                child: Container(
+                  height: 180,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        color: Color(0xFFD6D3D3),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(19),
+                        bottomRight: Radius.circular(19),
                       ),
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: ShapeDecoration(
-                            color: !rShow ? Colors.black45 : Colors.red,
-                            shape: const OvalBorder(),
-                            shadows: const [
-                              BoxShadow(
-                                color: Colors.red,
-                                blurRadius: 5,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              rShow ? '$rForShow' : '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                height: 0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: ShapeDecoration(
-                            color: !yShow ? Colors.black45 : Colors.yellow,
-                            shape: const OvalBorder(),
-                            shadows: const [
-                              BoxShadow(
-                                color: Colors.yellow,
-                                blurRadius: 5,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              yShow ? '$yForShow' : '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                        spreadRadius: 7,
+                      ),
+                    ],
+                  ),
+                  child: showSignal
+                      ? Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Center(
+                                child: Text(
+                                  circleName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w600,
+                                    height: 0,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          width: 90,
-                          height: 90,
-                          decoration: ShapeDecoration(
-                            color: !gShow ? Colors.black45 : Colors.green,
-                            shape: const OvalBorder(),
-                            shadows: const [
-                              BoxShadow(
-                                color: Colors.green,
-                                blurRadius: 5,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              gShow ? '$gForShow' : '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 30,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                height: 0,
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Text(
+                                "${circle!["address"]["road"].toString()},",
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black54,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
                               ),
                             ),
-                          ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Text(
+                                "${circle!["address"]["area"].toString()}, ${circle!["address"]["city"].toString()} - ${circle!["address"]["pincode"].toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black54,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  height: 0,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Text(
+                                "No. of signals: ${circle!["numberOfSignals"].toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  height: 0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Center(
+                                child: Text(
+                                  circleName == ''
+                                      ? 'Signal can\'t detect'
+                                      : circleName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w600,
+                                    height: 0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: ShapeDecoration(
+                                    color: !rShow ? Colors.black45 : Colors.red,
+                                    shape: const OvalBorder(),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Colors.red,
+                                        blurRadius: 5,
+                                        spreadRadius: 5,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      rShow ? '$rForShow' : '',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: ShapeDecoration(
+                                    color:
+                                        !yShow ? Colors.black45 : Colors.yellow,
+                                    shape: const OvalBorder(),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Colors.yellow,
+                                        blurRadius: 5,
+                                        spreadRadius: 5,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      yShow ? '$yForShow' : '',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: ShapeDecoration(
+                                    color:
+                                        !gShow ? Colors.black45 : Colors.green,
+                                    shape: const OvalBorder(),
+                                    shadows: const [
+                                      BoxShadow(
+                                        color: Colors.green,
+                                        blurRadius: 5,
+                                        spreadRadius: 5,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      gShow ? '$gForShow' : '',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        height: 0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
                 ),
               ),
             ),
