@@ -1,0 +1,183 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.signal"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+11-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:2:5-77
+11-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:2:22-74
+12    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+12-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:3:5-84
+12-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:3:22-82
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:4:5-67
+13-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:4:22-64
+14    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+14-->[:connectivity] D:\Flutter\Flutter_Projects\signal\build\connectivity\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-79
+14-->[:connectivity] D:\Flutter\Flutter_Projects\signal\build\connectivity\intermediates\merged_manifest\release\AndroidManifest.xml:9:22-76
+15    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+15-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-81
+15-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:9:22-78
+16    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+16-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:10:5-79
+16-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:10:22-76
+17
+18    <uses-feature
+18-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:26:5-28:35
+19        android:glEsVersion="0x00020000"
+19-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:27:9-41
+20        android:required="true" />
+20-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:28:9-32
+21
+22    <queries>
+22-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:30:5-34:15
+23
+24        <!-- Needs to be explicitly declared on Android R+ -->
+25        <package android:name="com.google.android.apps.maps" />
+25-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:9-64
+25-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:33:18-61
+26    </queries>
+27
+28    <permission
+28-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
+29        android:name="com.example.signal.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+29-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:23:9-81
+30        android:protectionLevel="signature" />
+30-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:24:9-44
+31
+32    <uses-permission android:name="com.example.signal.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+32-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:26:5-97
+32-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:26:22-94
+33
+34    <application
+35        android:name="android.app.Application"
+35-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:7:9-42
+36        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+36-->[androidx.core:core:1.10.1] C:\Users\arpan\.gradle\caches\transforms-3\0235b77ff31bafac24f24ba4755d72b8\transformed\core-1.10.1\AndroidManifest.xml:28:18-86
+37        android:icon="@mipmap/ic_launcher"
+37-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:8:9-43
+38        android:label="signal" >
+38-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:6:9-31
+39        <activity
+39-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:11:9-31:20
+40            android:name="com.example.signal.MainActivity"
+40-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:12:13-41
+41            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+41-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:16:13-163
+42            android:exported="true"
+42-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:13:13-36
+43            android:hardwareAccelerated="true"
+43-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:17:13-47
+44            android:launchMode="singleTop"
+44-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:14:13-43
+45            android:theme="@style/LaunchTheme"
+45-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:15:13-47
+46            android:windowSoftInputMode="adjustResize" >
+46-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:18:13-55
+47
+48            <!--
+49                 Specifies an Android theme to apply to this Activity as soon as
+50                 the Android process has started. This theme is visible to the user
+51                 while the Flutter UI initializes. After that, this theme continues
+52                 to determine the Window background behind the Flutter UI.
+53            -->
+54            <meta-data
+54-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:23:13-26:17
+55                android:name="io.flutter.embedding.android.NormalTheme"
+55-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:24:15-70
+56                android:resource="@style/NormalTheme" />
+56-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:25:15-52
+57
+58            <intent-filter>
+58-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:27:13-30:29
+59                <action android:name="android.intent.action.MAIN" />
+59-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:28:17-68
+59-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:28:25-66
+60
+61                <category android:name="android.intent.category.LAUNCHER" />
+61-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:29:17-76
+61-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:29:27-74
+62            </intent-filter>
+63        </activity>
+64        <!--
+65             Don't delete the meta-data below.
+66             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+67        -->
+68        <meta-data
+68-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:34:9-36:33
+69            android:name="flutterEmbedding"
+69-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:35:13-44
+70            android:value="2" />
+70-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:36:13-30
+71        <meta-data
+71-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:38:9-40:71
+72            android:name="com.google.android.geo.API_KEY"
+72-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:39:13-58
+73            android:value="AIzaSyCnHSpV4knuw0-A9UOWpEOo7awGv52zAxM" />
+73-->D:\Flutter\Flutter_Projects\signal\android\app\src\main\AndroidManifest.xml:40:13-68
+74
+75        <service
+75-->[:geolocator_android] D:\Flutter\Flutter_Projects\signal\build\geolocator_android\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-14:56
+76            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+76-->[:geolocator_android] D:\Flutter\Flutter_Projects\signal\build\geolocator_android\intermediates\merged_manifest\release\AndroidManifest.xml:11:13-77
+77            android:enabled="true"
+77-->[:geolocator_android] D:\Flutter\Flutter_Projects\signal\build\geolocator_android\intermediates\merged_manifest\release\AndroidManifest.xml:12:13-35
+78            android:exported="false"
+78-->[:geolocator_android] D:\Flutter\Flutter_Projects\signal\build\geolocator_android\intermediates\merged_manifest\release\AndroidManifest.xml:13:13-37
+79            android:foregroundServiceType="location" />
+79-->[:geolocator_android] D:\Flutter\Flutter_Projects\signal\build\geolocator_android\intermediates\merged_manifest\release\AndroidManifest.xml:14:13-53
+80        <service
+80-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:13:9-17:56
+81            android:name="com.lyokone.location.FlutterLocationService"
+81-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:14:13-71
+82            android:enabled="true"
+82-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-35
+83            android:exported="false"
+83-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:16:13-37
+84            android:foregroundServiceType="location" />
+84-->[:location] D:\Flutter\Flutter_Projects\signal\build\location\intermediates\merged_manifest\release\AndroidManifest.xml:17:13-53
+85
+86        <uses-library
+86-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+87            android:name="androidx.window.extensions"
+87-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+88            android:required="false" />
+88-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+89        <uses-library
+89-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+90            android:name="androidx.window.sidecar"
+90-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+91            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
+91-->[androidx.window:window:1.0.0-beta04] C:\Users\arpan\.gradle\caches\transforms-3\29fe38a5fd6c3bf46cd8e59c2b63489e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+92        <uses-library
+92-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:39:9-41:40
+93            android:name="org.apache.http.legacy"
+93-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:40:13-50
+94            android:required="false" />
+94-->[com.google.android.gms:play-services-maps:18.2.0] C:\Users\arpan\.gradle\caches\transforms-3\933f3bcd90026ce415bdca162ac5e719\transformed\jetified-play-services-maps-18.2.0\AndroidManifest.xml:41:13-37
+95
+96        <activity
+96-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\028a675d0bc5463fd0b16375a1e80ebd\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+97            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+97-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\028a675d0bc5463fd0b16375a1e80ebd\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+98            android:exported="false"
+98-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\028a675d0bc5463fd0b16375a1e80ebd\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+99            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+99-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\028a675d0bc5463fd0b16375a1e80ebd\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+100
+101        <meta-data
+101-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\812b774e80ed6f3274e67e516e447223\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+102            android:name="com.google.android.gms.version"
+102-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\812b774e80ed6f3274e67e516e447223\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+103            android:value="@integer/google_play_services_version" />
+103-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\arpan\.gradle\caches\transforms-3\812b774e80ed6f3274e67e516e447223\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+104    </application>
+105
+106</manifest>
